@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WX.OrderFulfilment", "OrderFulfilment\WX.OrderFulfilment.csproj", "{436E53C6-B15A-4242-9218-C7391CE50A7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1FE3A204-20B1-4F03-93CB-4D478AA8C445}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WX.OrderFulfilment.Tests", "OrderFulfilment.Tests\WX.OrderFulfilment.Tests.csproj", "{53824F5A-F322-426B-96E9-1DD0D38A987A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{436E53C6-B15A-4242-9218-C7391CE50A7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{436E53C6-B15A-4242-9218-C7391CE50A7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{436E53C6-B15A-4242-9218-C7391CE50A7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{436E53C6-B15A-4242-9218-C7391CE50A7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53824F5A-F322-426B-96E9-1DD0D38A987A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53824F5A-F322-426B-96E9-1DD0D38A987A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53824F5A-F322-426B-96E9-1DD0D38A987A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53824F5A-F322-426B-96E9-1DD0D38A987A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{53824F5A-F322-426B-96E9-1DD0D38A987A} = {1FE3A204-20B1-4F03-93CB-4D478AA8C445}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C56C1C98-BF4B-42B3-AF49-7A1802DFBCCE}
+	EndGlobalSection
+EndGlobal
