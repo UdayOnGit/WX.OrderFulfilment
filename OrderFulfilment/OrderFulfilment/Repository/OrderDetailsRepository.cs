@@ -7,8 +7,8 @@ namespace WX.OrderFulfilment.Repository
         public UserDetails GetUserDetails()
         {
             // Ideally this information will come different source like a DB or different service
-            const string name = "Uday";
-            const string token = "1234-455662-22233333-3333";
+            const string name = "Uday Jadhav";
+            const string token = "276b32a9-8e35-4981-87b4-85e0a30f3319";
 
             return new UserDetails() { Name = name, Token = token };
         }

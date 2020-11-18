@@ -25,7 +25,7 @@ namespace WX.OrderFulfilment.Services
             // Map string to enum
             Enum.TryParse(typeof(SortOptionEnum), sortOption, out var optionEnum);
 
-            _ = GetWooliesXProducts();
+            //_ = GetWooliesXProducts();
 
             var result = optionEnum switch
             {
@@ -119,7 +119,7 @@ namespace WX.OrderFulfilment.Services
                 var response = await httpClient.SendAsync(request);
                 //response.Content.ReadAsStringAsync().Result
 
-                var result = await JsonSerializer.DeserializeAsync<Product>(await response.Content.ReadAsStreamAsync());
+                //var result = await JsonSerializer.DeserializeAsync<Product>(await response.Content.ReadAsStreamAsync());
             }
             return new List<Product>();
         }
