@@ -1,13 +1,34 @@
-WooliesX API coding challenge
+# WooliesX API coding challenge
 
-Installation
+## Getting started
+Get code
+> git clone https://github.com/UdayOnGit/WX.OrderFulfilment.git
 
-Tests
+Navigate to project folder
+> cd WX.OrderFulfilment\OrderFulfilment\OrderFulfilment
 
-Exercises
+build project
+> dotnet build
 
-Exercise 1
+run project
+> dotnet run
 
-Exercise 2
+## Exercises
 
-Postman collection
+### Exercise 1
+https://wxresourcename.azure-api.net/v1/api/UserDetails/user
+
+###### HTTP request
+
+
+### Exercise 2
+
+###### HTTP request
+
+
+###### HTTP Response
+
+
+## Postman collection
+
+## Tests
