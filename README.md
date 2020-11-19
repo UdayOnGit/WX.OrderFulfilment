@@ -50,9 +50,13 @@ Accept-Language: en-US,en;q=0.9
 ### Exercise 2
 
 https://wxresourcename.azure-api.net/v1/api/Product/sort?sortOption=low
+
 https://wxresourcename.azure-api.net/v1/api/Product/sort?sortOption=high
+
 https://wxresourcename.azure-api.net/v1/api/Product/sort?sortOption=ascending
+
 https://wxresourcename.azure-api.net/v1/api/Product/sort?sortOption=descending
+
 https://wxresourcename.azure-api.net/v1/api/Product/sort?sortOption=recommended
 
 ###### HTTP request
