@@ -17,7 +17,34 @@ Navigate to project folder, build, and run project
 https://wxresourcename.azure-api.net/v1/api/UserDetails/user
 
 ###### HTTP request
+```
+POST http://dev-wooliesx-recruitment.azurewebsites.net/api/Exercise/exercise1 HTTP/1.1
+Host: dev-wooliesx-recruitment.azurewebsites.net
+Connection: keep-alive
+Content-Length: 121
+Accept: application/json, text/plain, */*
+Content-Type: application/json
+Origin: http://dev-wooliesx-recruitment.azurewebsites.net
+Referer: http://dev-wooliesx-recruitment.azurewebsites.net/exercise
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
 
+{
+  "token": "276b32a9-8e35-4981-87b4-85e0a30f3319",
+  "url": "https://wxresourcename.azure-api.net/v1/api/UserDetails"
+}
+```
+
+###### HTTP response
+```
+[
+	{
+		"passed": true,
+		"url": "https://wxresourcename.azure-api.net/v1/api/UserDetails/user",
+		"message": "Name returned correctly: Uday Jadhav."
+	}
+]
+```
 
 ### Exercise 2
 
