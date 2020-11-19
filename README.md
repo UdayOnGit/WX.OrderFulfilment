@@ -109,5 +109,5 @@ Accept-Language: en-US,en;q=0.9
 ```
 
 ## Postman collection
-
-## Tests
+Postman collection is at
+```OrderFulfilment\Postman\WX OrderFulfilment.postman_collection.json```
