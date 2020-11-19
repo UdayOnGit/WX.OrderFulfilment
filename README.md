@@ -5,11 +5,11 @@ Get code
 > git clone https://github.com/UdayOnGit/WX.OrderFulfilment.git
 
 Navigate to project folder, build, and run project
+``` 
 > cd WX.OrderFulfilment\OrderFulfilment\OrderFulfilment
-
 > dotnet build
-
 > dotnet run
+```
 
 ## Exercises
 
