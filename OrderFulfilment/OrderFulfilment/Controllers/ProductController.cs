@@ -23,14 +23,10 @@ namespace WX.OrderFulfilment.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet()]
+        [HttpGet("sort")]
         public IEnumerable<ProductResource> GetProducts([FromQuery(Name = "sortOption")] string sortOption)
         {
-            // ToDo: Send bad request
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest("missing sort option!");
-            //}
+            // ToDo: Respond with bad request if sortOption is empty
 
             var products = _productService.GetProducts(sortOption);
 
