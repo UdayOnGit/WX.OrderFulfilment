@@ -69,12 +69,16 @@ namespace WX.OrderFulfilment.Services
 
 		private async Task<IEnumerable<Product>> GetProductsFromWXAPI()
 		{
-			//ToDo: Token is hardcoded in URL, it shouldn't be
-			var baseUrl = _configuration.GetValue<string>("WooliesXUrls:ProductUrl");
+			var baseUrl = _configuration.GetValue<string>("WooliesXUrls:BaseUrl");
+			var productEndpoint = _configuration.GetValue<string>("WooliesXUrls:ProductEndpoint");
+			var token = _configuration.GetValue<string>("UserDetails:Token");
+
+			var baseUri = new Uri(baseUrl);
+			var productUri = new Uri(baseUri, $"{productEndpoint}?token={token}");
 			using (var httpClient = new HttpClient())
 			{
 				httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-				var request = new HttpRequestMessage(HttpMethod.Get, baseUrl);
+				var request = new HttpRequestMessage(HttpMethod.Get, productUri);
 				var response = await httpClient.SendAsync(request);
 				if (response.StatusCode == HttpStatusCode.OK)
 				{
@@ -111,15 +115,19 @@ namespace WX.OrderFulfilment.Services
 				.Select(p => p.Product);
 		}
 
-
 		private async Task<IEnumerable<ShopperHistory>> GetShopperHistory()
 		{
-			//ToDo: Token is hardcoded in URL, it shouldn't be
-			var baseUrl = _configuration.GetValue<string>("WooliesXUrls:ShopperHistory");
+			var baseUrl = _configuration.GetValue<string>("WooliesXUrls:BaseUrl");
+			var productEndpoint = _configuration.GetValue<string>("WooliesXUrls:ShopperHistoryEndpoint");
+			var token = _configuration.GetValue<string>("UserDetails:Token");
+
+			var baseUri = new Uri(baseUrl);
+			var productUri = new Uri(baseUri, $"{productEndpoint}?token={token}");
+
 			using (var httpClient = new HttpClient())
 			{
 				httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-				var request = new HttpRequestMessage(HttpMethod.Get, baseUrl);
+				var request = new HttpRequestMessage(HttpMethod.Get, productUri);
 				var response = await httpClient.SendAsync(request);
 				if (response.StatusCode == HttpStatusCode.OK)
 				{
