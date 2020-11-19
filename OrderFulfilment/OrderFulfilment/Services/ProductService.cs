@@ -22,51 +22,76 @@ namespace WX.OrderFulfilment.Services
 
 		public IEnumerable<Product> GetProducts(string sortOption)
 		{
-			_ = GetShopperHistory();
-
-			// Map string to enum
 			Enum.TryParse(typeof(SortOptionEnum), sortOption, true, out var optionEnum);
-
-			var products = GetProductsFromWXAPI().Result; //ToDo: Change this to async
 
 			var result = optionEnum switch
 			{
-				SortOptionEnum.Low => GetProductsWithLowToHighPrice(products),
-				SortOptionEnum.High => GetProductsWithHighToLowPrice(products),
-				SortOptionEnum.Ascending => GetProductsWithAscendingName(products),
-				SortOptionEnum.Descending => GetProductsWithDescendingName(products),
-				SortOptionEnum.Recommended => GetRecommendedProducts(products),
+				SortOptionEnum.Low => GetProductsWithLowToHighPrice(),
+				SortOptionEnum.High => GetProductsWithHighToLowPrice(),
+				SortOptionEnum.Ascending => GetProductsWithAscendingName(),
+				SortOptionEnum.Descending => GetProductsWithDescendingName(),
+				SortOptionEnum.Recommended => GetRecommendedProducts(),
 				_ => Task.FromResult(Enumerable.Empty<Product>())
 			};
 
 			return result.Result;
 		}
 
-		private async Task<IEnumerable<Product>> GetProductsWithLowToHighPrice(IEnumerable<Product> products)
+		#region Get products based on the sort option
+		private async Task<IEnumerable<Product>> GetProductsWithLowToHighPrice()
 		{
+			var products = await GetProductsFromWXAPI();
 			return products.OrderBy(product => product.Price);
 		}
 
-		private async Task<IEnumerable<Product>> GetProductsWithHighToLowPrice(IEnumerable<Product> products)
+		private async Task<IEnumerable<Product>> GetProductsWithHighToLowPrice()
 		{
+			var products = await GetProductsFromWXAPI();
 			return products.OrderByDescending(product => product.Price);
 		}
 
-		private async Task<IEnumerable<Product>> GetProductsWithAscendingName(IEnumerable<Product> products)
+		private async Task<IEnumerable<Product>> GetProductsWithAscendingName()
 		{
+			var products = await GetProductsFromWXAPI();
 			return products.OrderBy(product => product.Name);
 		}
 
-		private async Task<IEnumerable<Product>> GetProductsWithDescendingName(IEnumerable<Product> products)
+		private async Task<IEnumerable<Product>> GetProductsWithDescendingName()
 		{
+			var products = await GetProductsFromWXAPI();
 			return products.OrderByDescending(product => product.Name);
 		}
 
-		private async Task<IEnumerable<Product>> GetRecommendedProducts(IEnumerable<Product> products)
+		private async Task<IEnumerable<Product>> GetRecommendedProducts()
 		{
-			return await GetPopularProducts(products);
+			return await GetPopularProducts();
 		}
 
+		private async Task<IEnumerable<Product>> GetPopularProducts()
+		{
+			var shopperHistory = await GetShopperHistory();
+			var userProducts = shopperHistory.Aggregate(new List<Product>(), (a, b) =>
+			{
+				if (b.Products != null)
+				{
+					a.AddRange(b.Products);
+				}
+				return a;
+			});
+
+			var products = await GetProductsFromWXAPI();
+			return products.Select(product =>
+				new
+				{
+					Product = product,
+					Populatiry = userProducts.Where(x => x.Name == product.Name).Count()
+				})
+				.OrderByDescending(p => p.Populatiry)
+				.Select(p => p.Product);
+		}
+		#endregion
+
+		#region Get Woolies resources
 		private async Task<IEnumerable<Product>> GetProductsFromWXAPI()
 		{
 			var baseUrl = _configuration.GetValue<string>("WooliesXUrls:BaseUrl");
@@ -91,28 +116,6 @@ namespace WX.OrderFulfilment.Services
 				}
 			}
 			return new List<Product>();
-		}
-
-		private async Task<IEnumerable<Product>> GetPopularProducts(IEnumerable<Product> products)
-		{
-			var shopperHistory = await GetShopperHistory();
-			var userProducts = shopperHistory.Aggregate(new List<Product>(), (a, b) =>
-			{
-				if (b.Products != null)
-				{
-					a.AddRange(b.Products);
-				}
-				return a;
-			});
-
-			return products.Select(product =>
-				new
-				{
-					Product = product,
-					Populatiry = userProducts.Where(x => x.Name == product.Name).Count()
-				})
-				.OrderByDescending(p => p.Populatiry)
-				.Select(p => p.Product);
 		}
 
 		private async Task<IEnumerable<ShopperHistory>> GetShopperHistory()
@@ -141,5 +144,8 @@ namespace WX.OrderFulfilment.Services
 			}
 			return new List<ShopperHistory>();
 		}
+
+		#endregion
+
 	}
 }

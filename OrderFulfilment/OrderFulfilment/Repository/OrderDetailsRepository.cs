@@ -1,14 +1,21 @@
-﻿using WX.OrderFulfilment.Model;
+﻿using Microsoft.Extensions.Configuration;
+using WX.OrderFulfilment.Model;
 
 namespace WX.OrderFulfilment.Repository
 {
     public class OrderDetailsRepository : IRepository
     {
+        private readonly IConfiguration _configuration;
+
+        public OrderDetailsRepository(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public UserDetails GetUserDetails()
         {
-            // Ideally this information will come different source like a DB or different service
-            const string name = "Uday Jadhav";
-            const string token = "276b32a9-8e35-4981-87b4-85e0a30f3319";
+            var name = _configuration.GetValue<string>("UserDetails:Name");
+            var token = _configuration.GetValue<string>("UserDetails:Token");
 
             return new UserDetails() { Name = name, Token = token };
         }
