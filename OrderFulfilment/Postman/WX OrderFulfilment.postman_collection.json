@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "23b841bd-1530-41d9-a0ef-d159ea04f771",
+		"name": "WX OrderFulfilment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get user details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44345/api/UserDetails/user",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44345",
+					"path": [
+						"api",
+						"UserDetails",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products - sorted low to high price",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44345/api/Product/sort?sortOption=low",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44345",
+					"path": [
+						"api",
+						"Product",
+						"sort"
+					],
+					"query": [
+						{
+							"key": "sortOption",
+							"value": "low"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products - sorted high to low price",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44345/api/Product/sort?sortOption=high",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44345",
+					"path": [
+						"api",
+						"Product",
+						"sort"
+					],
+					"query": [
+						{
+							"key": "sortOption",
+							"value": "high"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products  - sorted ascending",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44345/api/Product/sort?sortOption=ascending",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44345",
+					"path": [
+						"api",
+						"Product",
+						"sort"
+					],
+					"query": [
+						{
+							"key": "sortOption",
+							"value": "ascending"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products  - sorted descending",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44345/api/Product/sort?sortOption=descending",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44345",
+					"path": [
+						"api",
+						"Product",
+						"sort"
+					],
+					"query": [
+						{
+							"key": "sortOption",
+							"value": "descending"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products  - recommended",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44345/api/Product/sort?sortOption=recommended",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44345",
+					"path": [
+						"api",
+						"Product",
+						"sort"
+					],
+					"query": [
+						{
+							"key": "sortOption",
+							"value": "recommended"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
