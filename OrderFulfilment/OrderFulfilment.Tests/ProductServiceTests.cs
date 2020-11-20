@@ -185,40 +185,40 @@ namespace WX.OrderFulfilment.Tests
 			private static readonly Product ProductD = new Product { Name = "Test Product D", Price = 5.0m, Quantity = 0 };
 			private static readonly Product ProductF = new Product { Name = "Test Product F", Price = 999999999999.0m, Quantity = 0 };
 
-			public static List<Product> ProductsSortedByLowPrice = new List<Product>() { 
-				ProductStub.ProductD,
-				ProductStub.ProductC,
-				ProductStub.ProductA,
-				ProductStub.ProductB,
-				ProductStub.ProductF };
+			public static List<Product> ProductsSortedByLowPrice = new List<Product>() {
+				ProductD,
+				ProductC,
+				ProductA,
+				ProductB,
+				ProductF };
 
 			public static List<Product> ProductsSortedByHighPrice = new List<Product>() {
-				ProductStub.ProductF,
-				ProductStub.ProductB,
-				ProductStub.ProductA,
-				ProductStub.ProductC,
-				ProductStub.ProductD };
+				ProductF,
+				ProductB,
+				ProductA,
+				ProductC,
+				ProductD };
 
 			public static List<Product> ProductsSortedByAscending = new List<Product>() {
-				ProductStub.ProductA,
-				ProductStub.ProductB,
-				ProductStub.ProductC,
-				ProductStub.ProductD,
-				ProductStub.ProductF};
+				ProductA,
+				ProductB,
+				ProductC,
+				ProductD,
+				ProductF};
 
 			public static List<Product> ProductsSortedByDescending = new List<Product>() {
-				ProductStub.ProductF,
-				ProductStub.ProductD,
-				ProductStub.ProductC,
-				ProductStub.ProductB,
-				ProductStub.ProductA };
+				ProductF,
+				ProductD,
+				ProductC,
+				ProductB,
+				ProductA };
 
 			public static List<Product> ProductsSortedByPopularity = new List<Product>() {
-				ProductStub.ProductA,
-				ProductStub.ProductB,
-				ProductStub.ProductF,
-				ProductStub.ProductC,
-				ProductStub.ProductD };
+				ProductA,
+				ProductB,
+				ProductF,
+				ProductC,
+				ProductD };
 		}
 
 		private void ConfigureTestSettings()

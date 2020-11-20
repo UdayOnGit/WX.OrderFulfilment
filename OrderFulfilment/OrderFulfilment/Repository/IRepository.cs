@@ -2,7 +2,7 @@
 
 namespace WX.OrderFulfilment.Repository
 {
-    public interface IRepository
+	public interface IRepository
     {
         UserDetails GetUserDetails();
     }

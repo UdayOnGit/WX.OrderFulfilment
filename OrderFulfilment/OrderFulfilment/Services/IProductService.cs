@@ -3,7 +3,7 @@ using WX.OrderFulfilment.Model;
 
 namespace WX.OrderFulfilment.Services
 {
-    public interface IProductService
+	public interface IProductService
     {
         IEnumerable<Product> GetProducts(string sortOption);
     }

@@ -4,7 +4,7 @@ using WX.OrderFulfilment.Resources;
 
 namespace WX.OrderFulfilment.Mapping
 {
-    public class ModelToResourceProfile : Profile
+	public class ModelToResourceProfile : Profile
     {
         public ModelToResourceProfile()
         {

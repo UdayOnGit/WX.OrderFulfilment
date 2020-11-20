@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace WX.OrderFulfilment.Middleware
 {
-    public class ErrorHandlingMiddleware
+	public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate next;
 

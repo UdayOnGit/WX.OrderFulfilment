@@ -3,7 +3,7 @@ using WX.OrderFulfilment.Model;
 
 namespace WX.OrderFulfilment.Repository
 {
-    public class OrderDetailsRepository : IRepository
+	public class OrderDetailsRepository : IRepository
     {
         private readonly IConfiguration _configuration;
 

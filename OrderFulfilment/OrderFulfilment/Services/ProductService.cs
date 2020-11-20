@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-//using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -92,6 +91,8 @@ namespace WX.OrderFulfilment.Services
 		#endregion
 
 		#region Get Woolies resources
+
+		// ToDo: Getting resources from external api seems tightly coupled with ProductService. Need to bring it out
 		private async Task<IEnumerable<Product>> GetProductsFromWXAPI()
 		{
 			var baseUrl = _configuration.GetValue<string>("WooliesXUrls:BaseUrl");
@@ -100,7 +101,7 @@ namespace WX.OrderFulfilment.Services
 
 			var baseUri = new Uri(baseUrl);
 			var productUri = new Uri(baseUri, $"{productEndpoint}?token={token}");
-			using (var httpClient = new HttpClient())
+			using (var httpClient = new HttpClient())	// ToDo: This can be taken out into a separate helper class
 			{
 				httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 				var request = new HttpRequestMessage(HttpMethod.Get, productUri);

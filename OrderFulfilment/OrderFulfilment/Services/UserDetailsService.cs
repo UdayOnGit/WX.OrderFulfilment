@@ -3,7 +3,7 @@ using WX.OrderFulfilment.Repository;
 
 namespace WX.OrderFulfilment.Services
 {
-    public class UserDetailsService : IUserDetailsService
+	public class UserDetailsService : IUserDetailsService
     {
         private readonly IRepository _repository;
 

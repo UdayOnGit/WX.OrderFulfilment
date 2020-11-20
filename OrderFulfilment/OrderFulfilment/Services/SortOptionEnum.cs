@@ -2,7 +2,7 @@
 
 namespace WX.OrderFulfilment.Services
 {
-    public enum SortOptionEnum
+	public enum SortOptionEnum
     {
         [Description("Low to High Price")]
         Low,

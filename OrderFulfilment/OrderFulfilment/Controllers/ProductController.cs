@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WX.OrderFulfilment.Model;
@@ -10,7 +7,7 @@ using WX.OrderFulfilment.Services;
 
 namespace WX.OrderFulfilment.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
@@ -26,7 +23,7 @@ namespace WX.OrderFulfilment.Controllers
         [HttpGet("sort")]
         public IEnumerable<ProductResource> GetProducts([FromQuery(Name = "sortOption")] string sortOption)
         {
-            // ToDo: Respond with bad request if sortOption is empty
+            // ToDo: If sortOption is empty, maybe return products sorted by popularity?
 
             var products = _productService.GetProducts(sortOption);
 

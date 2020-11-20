@@ -2,7 +2,7 @@
 
 namespace WX.OrderFulfilment.Services
 {
-    public interface IUserDetailsService
+	public interface IUserDetailsService
     {
         UserDetails GetUserDetails();
     }
