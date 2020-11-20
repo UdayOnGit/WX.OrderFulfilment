@@ -11,89 +11,241 @@ namespace WX.OrderFulfilment.Tests
 {
 	public class ProductServiceTests
 	{
-
 		private readonly Mock<IConfiguration> _configuration;
 
 		public ProductServiceTests()
 		{
 			_configuration = new Mock<IConfiguration>();
+			ConfigureTestSettings();
 		}
 
-
 		[Theory]
-		[ClassData(typeof(CalculatorTestData))]
-		public void Should_Return_Products_Sorted_Low_To_High(string sortOption, List<Product> expectedProductsList)
+		[ClassData(typeof(ProductTestData))]
+		public void Should_Return_Products_Sorted_By_Condition(string sortOption, List<Product> expectedProductsList)
 		{
 			// Arrange
 			var productService = new ProductService(_configuration.Object);
-
-			var baseUrlConfigSection = new Mock<IConfigurationSection>();
-			baseUrlConfigSection.Setup(a => a.Value).Returns("http://dev-wooliesx-recruitment.azurewebsites.net/");
-			_configuration
-				.Setup(config => config.GetSection("WooliesXUrls:BaseUrl"))
-				.Returns(baseUrlConfigSection.Object);
-
-			var productEndpointConfigSection = new Mock<IConfigurationSection>();
-			productEndpointConfigSection.Setup(a => a.Value).Returns("api/resource/products");
-			_configuration
-				.Setup(config => config.GetSection("WooliesXUrls:ProductEndpoint"))
-				.Returns(productEndpointConfigSection.Object);
-
-			var tokenConfigSection = new Mock<IConfigurationSection>();
-			tokenConfigSection.Setup(a => a.Value).Returns("276b32a9-8e35-4981-87b4-85e0a30f3319");
-			_configuration
-				.Setup(config => config.GetSection("UserDetails:Token"))
-				.Returns(tokenConfigSection.Object);
 
 			// Act
 			var products = productService.GetProducts(sortOption);
 
 			// Assert
-			expectedProductsList.Should().BeEquivalentTo(products);
+			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());
 		}
 
-		public class CalculatorTestData : IEnumerable<object[]>
+		[Theory]
+		[ClassData(typeof(LowSortOptionTestData))]
+		public void Should_Return_Products_For_Case_Insensitive_Low_Sortoption(string sortOption, List<Product> expectedProductsList)
 		{
-			readonly Product productA = new Product { Name = "Test Product A", Price = 99.99m, Quantity = 0 };
-			readonly Product productB = new Product { Name = "Test Product B", Price = 101.99m, Quantity = 0 };
-			readonly Product productC = new Product { Name = "Test Product C", Price = 10.99m, Quantity = 0 };
-			readonly Product productD = new Product { Name = "Test Product D", Price = 5.0m, Quantity = 0 };
-			readonly Product productF = new Product { Name = "Test Product F", Price = 999999999999.0m, Quantity = 0 };
+			// Arrange
+			var productService = new ProductService(_configuration.Object);
 
+			// Act
+			var products = productService.GetProducts(sortOption);
+
+			// Assert
+			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());
+		}
+
+		[Theory]
+		[ClassData(typeof(HighSortOptionTestData))]
+		public void Should_Return_Products_For_Case_Insensitive_High_Sortoption(string sortOption, List<Product> expectedProductsList)
+		{
+			// Arrange
+			var productService = new ProductService(_configuration.Object);
+
+			// Act
+			var products = productService.GetProducts(sortOption);
+
+			// Assert
+			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());
+		}
+
+		[Theory]
+		[ClassData(typeof(AscendingSortOptionTestData))]
+		public void Should_Return_Products_For_Case_Insensitive_Ascending_Sortoption(string sortOption, List<Product> expectedProductsList)
+		{
+			// Arrange
+			var productService = new ProductService(_configuration.Object);
+
+			// Act
+			var products = productService.GetProducts(sortOption);
+
+			// Assert
+			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());
+		}
+
+		[Theory]
+		[ClassData(typeof(DescendingSortOptionTestData))]
+		public void Should_Return_Products_For_Case_Insensitive_Descending_Sortoption(string sortOption, List<Product> expectedProductsList)
+		{
+			// Arrange
+			var productService = new ProductService(_configuration.Object);
+
+			// Act
+			var products = productService.GetProducts(sortOption);
+
+			// Assert
+			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());
+		}
+
+		[Theory]
+		[ClassData(typeof(RecommendedSortOptionTestData))]
+		public void Should_Return_Products_For_Case_Insensitive_Recommended_Sortoption(string sortOption, List<Product> expectedProductsList)
+		{
+			// Arrange
+			var productService = new ProductService(_configuration.Object);
+
+			// Act
+			var products = productService.GetProducts(sortOption);
+
+			// Assert
+			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());
+		}
+
+		private class ProductTestData : IEnumerable<object[]>
+		{
 			public IEnumerator<object[]> GetEnumerator()
 			{
-				yield return new object[] { "low", new List<Product>() {
-				productD,
-				productC,
-				productA,
-				productB,
-				productF
-				}};
-
-				yield return new object[] { "high", new List<Product>() {
-				productF,
-				productB,
-				productA,
-				productC,
-				productD 
-				}};
-				yield return new object[] { "ascending", new List<Product>() {
-				productA,
-				productB,
-				productC,
-				productD,
-				productF
-				}};
-				yield return new object[] { "descending", new List<Product>() {
-				productF,
-				productD,
-				productC,
-				productB,
-				productA
-				}};
+				yield return new object[] { "low", ProductStub.ProductsSortedByLowPrice};
+				yield return new object[] { "high", ProductStub.ProductsSortedByHighPrice };
+				yield return new object[] { "ascending", ProductStub.ProductsSortedByAscending };
+				yield return new object[] { "descending", ProductStub.ProductsSortedByDescending };
+				yield return new object[] { "recommended", ProductStub.ProductsSortedByPopularity };
 			}
 
 			IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+		}
+
+		private class LowSortOptionTestData : IEnumerable<object[]>
+		{
+			public IEnumerator<object[]> GetEnumerator()
+			{
+				yield return new object[] { "low", ProductStub.ProductsSortedByLowPrice };
+				yield return new object[] { "LOW", ProductStub.ProductsSortedByLowPrice };
+				yield return new object[] { "LoW", ProductStub.ProductsSortedByLowPrice };
+			}
+
+			IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+		}
+
+		private class HighSortOptionTestData : IEnumerable<object[]>
+		{
+			public IEnumerator<object[]> GetEnumerator()
+			{
+				yield return new object[] { "high", ProductStub.ProductsSortedByHighPrice };
+				yield return new object[] { "HIGH", ProductStub.ProductsSortedByHighPrice };
+				yield return new object[] { "HiGh", ProductStub.ProductsSortedByHighPrice };
+			}
+
+			IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+		}
+
+		private class AscendingSortOptionTestData : IEnumerable<object[]>
+		{
+			public IEnumerator<object[]> GetEnumerator()
+			{
+				yield return new object[] { "ascending", ProductStub.ProductsSortedByAscending };
+				yield return new object[] { "ASCENDING", ProductStub.ProductsSortedByAscending };
+				yield return new object[] { "AsCeNdINg", ProductStub.ProductsSortedByAscending };
+			}
+
+			IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+		}
+
+		private class DescendingSortOptionTestData : IEnumerable<object[]>
+		{
+			public IEnumerator<object[]> GetEnumerator()
+			{
+				yield return new object[] { "descending", ProductStub.ProductsSortedByDescending };
+				yield return new object[] { "DESCENDING", ProductStub.ProductsSortedByDescending };
+				yield return new object[] { "DeScEnDiNg", ProductStub.ProductsSortedByDescending };
+			}
+
+			IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+		}
+
+		private class RecommendedSortOptionTestData : IEnumerable<object[]>
+		{
+			public IEnumerator<object[]> GetEnumerator()
+			{
+				yield return new object[] { "descending", ProductStub.ProductsSortedByDescending };
+				yield return new object[] { "DESCENDING", ProductStub.ProductsSortedByDescending };
+				yield return new object[] { "DeScEnDiNg", ProductStub.ProductsSortedByDescending };
+			}
+
+			IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+		}
+
+		public class ProductStub
+		{
+			private static readonly Product ProductA = new Product { Name = "Test Product A", Price = 99.99m, Quantity = 0 };
+			private static readonly Product ProductB = new Product { Name = "Test Product B", Price = 101.99m, Quantity = 0 };
+			private static readonly Product ProductC = new Product { Name = "Test Product C", Price = 10.99m, Quantity = 0 };
+			private static readonly Product ProductD = new Product { Name = "Test Product D", Price = 5.0m, Quantity = 0 };
+			private static readonly Product ProductF = new Product { Name = "Test Product F", Price = 999999999999.0m, Quantity = 0 };
+
+			public static List<Product> ProductsSortedByLowPrice = new List<Product>() { 
+				ProductStub.ProductD,
+				ProductStub.ProductC,
+				ProductStub.ProductA,
+				ProductStub.ProductB,
+				ProductStub.ProductF };
+
+			public static List<Product> ProductsSortedByHighPrice = new List<Product>() {
+				ProductStub.ProductF,
+				ProductStub.ProductB,
+				ProductStub.ProductA,
+				ProductStub.ProductC,
+				ProductStub.ProductD };
+
+			public static List<Product> ProductsSortedByAscending = new List<Product>() {
+				ProductStub.ProductA,
+				ProductStub.ProductB,
+				ProductStub.ProductC,
+				ProductStub.ProductD,
+				ProductStub.ProductF};
+
+			public static List<Product> ProductsSortedByDescending = new List<Product>() {
+				ProductStub.ProductF,
+				ProductStub.ProductD,
+				ProductStub.ProductC,
+				ProductStub.ProductB,
+				ProductStub.ProductA };
+
+			public static List<Product> ProductsSortedByPopularity = new List<Product>() {
+				ProductStub.ProductA,
+				ProductStub.ProductB,
+				ProductStub.ProductF,
+				ProductStub.ProductC,
+				ProductStub.ProductD };
+		}
+
+		private void ConfigureTestSettings()
+		{
+			var baseUrlSection = new Mock<IConfigurationSection>();
+			baseUrlSection.Setup(a => a.Value).Returns("http://dev-wooliesx-recruitment.azurewebsites.net/");
+			_configuration
+				.Setup(config => config.GetSection("WooliesXUrls:BaseUrl"))
+				.Returns(baseUrlSection.Object);
+
+			var productEndpointSection = new Mock<IConfigurationSection>();
+			productEndpointSection.Setup(a => a.Value).Returns("api/resource/products");
+			_configuration
+				.Setup(config => config.GetSection("WooliesXUrls:ProductEndpoint"))
+				.Returns(productEndpointSection.Object);
+
+			var tokenSection = new Mock<IConfigurationSection>();
+			tokenSection.Setup(a => a.Value).Returns("276b32a9-8e35-4981-87b4-85e0a30f3319");
+			_configuration
+				.Setup(config => config.GetSection("UserDetails:Token"))
+				.Returns(tokenSection.Object);
+
+			var shopperHistoryEndpointSection = new Mock<IConfigurationSection>();
+			shopperHistoryEndpointSection.Setup(a => a.Value).Returns("api/resource/shopperHistory");
+			_configuration
+				.Setup(config => config.GetSection("WooliesXUrls:ShopperHistoryEndpoint"))
+				.Returns(shopperHistoryEndpointSection.Object);
 		}
 	}
 }
