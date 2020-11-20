@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -18,18 +19,13 @@ namespace WX.OrderFulfilment.Tests
 			_configuration = new Mock<IConfiguration>();
 		}
 
-		[Fact]
-		public void Should_Return_Products_Sorted_Low_To_High()
+
+		[Theory]
+		[ClassData(typeof(CalculatorTestData))]
+		public void Should_Return_Products_Sorted_Low_To_High(string sortOption, List<Product> expectedProductsList)
 		{
 			// Arrange
 			var productService = new ProductService(_configuration.Object);
-			var expectedProductsList = new List<Product>() {
-				new Product { Name = "Test Product D", Price = 5.0m, Quantity = 0},
-				new Product { Name = "Test Product C", Price = 10.99m, Quantity = 0},
-				new Product { Name = "Test Product A", Price = 99.99m, Quantity = 0},
-				new Product { Name = "Test Product B", Price = 101.99m, Quantity = 0},
-				new Product { Name = "Test Product F", Price = 999999999999.0m, Quantity = 0},
-			};
 
 			var baseUrlConfigSection = new Mock<IConfigurationSection>();
 			baseUrlConfigSection.Setup(a => a.Value).Returns("http://dev-wooliesx-recruitment.azurewebsites.net/");
@@ -50,10 +46,54 @@ namespace WX.OrderFulfilment.Tests
 				.Returns(tokenConfigSection.Object);
 
 			// Act
-			var products = productService.GetProducts("low");
+			var products = productService.GetProducts(sortOption);
 
 			// Assert
 			expectedProductsList.Should().BeEquivalentTo(products);
+		}
+
+		public class CalculatorTestData : IEnumerable<object[]>
+		{
+			readonly Product productA = new Product { Name = "Test Product A", Price = 99.99m, Quantity = 0 };
+			readonly Product productB = new Product { Name = "Test Product B", Price = 101.99m, Quantity = 0 };
+			readonly Product productC = new Product { Name = "Test Product C", Price = 10.99m, Quantity = 0 };
+			readonly Product productD = new Product { Name = "Test Product D", Price = 5.0m, Quantity = 0 };
+			readonly Product productF = new Product { Name = "Test Product F", Price = 999999999999.0m, Quantity = 0 };
+
+			public IEnumerator<object[]> GetEnumerator()
+			{
+				yield return new object[] { "low", new List<Product>() {
+				productD,
+				productC,
+				productA,
+				productB,
+				productF
+				}};
+
+				yield return new object[] { "high", new List<Product>() {
+				productF,
+				productB,
+				productA,
+				productC,
+				productD 
+				}};
+				yield return new object[] { "ascending", new List<Product>() {
+				productA,
+				productB,
+				productC,
+				productD,
+				productF
+				}};
+				yield return new object[] { "descending", new List<Product>() {
+				productF,
+				productD,
+				productC,
+				productB,
+				productA
+				}};
+			}
+
+			IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 		}
 	}
 }
