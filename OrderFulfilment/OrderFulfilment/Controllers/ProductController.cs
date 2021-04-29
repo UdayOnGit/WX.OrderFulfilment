@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WX.OrderFulfilment.Model;
@@ -21,11 +22,11 @@ namespace WX.OrderFulfilment.Controllers
         }
 
         [HttpGet("sort")]
-        public IEnumerable<ProductResource> GetProducts([FromQuery(Name = "sortOption")] string sortOption)
+        public async Task<IEnumerable<ProductResource>> GetProducts([FromQuery(Name = "sortOption")] string sortOption)
         {
             // ToDo: If sortOption is empty, maybe return products sorted by popularity?
 
-            var products = _productService.GetProducts(sortOption);
+            var products = await _productService.GetProducts(sortOption);
 
             var resource = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductResource>>(products);
 

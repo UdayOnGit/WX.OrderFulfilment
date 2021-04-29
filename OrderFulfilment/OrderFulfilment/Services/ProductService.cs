@@ -19,7 +19,7 @@ namespace WX.OrderFulfilment.Services
 			_configuration = configuration;
 		}
 
-		public IEnumerable<Product> GetProducts(string sortOption)
+		public async Task<IEnumerable<Product>> GetProducts(string sortOption)
 		{
 			Enum.TryParse(typeof(SortOptionEnum), sortOption, true, out var optionEnum);
 
@@ -33,7 +33,7 @@ namespace WX.OrderFulfilment.Services
 				_ => Task.FromResult(Enumerable.Empty<Product>())
 			};
 
-			return result.Result;
+			return await result;
 		}
 
 		#region Get products based on the sort option
