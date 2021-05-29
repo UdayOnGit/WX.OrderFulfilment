@@ -6,10 +6,11 @@ using Moq;
 using WX.OrderFulfilment.Model;
 using WX.OrderFulfilment.Services;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace WX.OrderFulfilment.Tests
 {
-	public class ProductServiceTests
+    public class ProductServiceTests
 	{
 		private readonly Mock<IConfiguration> _configuration;
 
@@ -21,13 +22,13 @@ namespace WX.OrderFulfilment.Tests
 
 		[Theory]
 		[ClassData(typeof(ProductTestData))]
-		public void Should_Return_Products_Sorted_By_Condition(string sortOption, List<Product> expectedProductsList)
+		public async Task Should_Return_Products_Sorted_By_Condition(string sortOption, List<Product> expectedProductsList)
 		{
 			// Arrange
 			var productService = new ProductService(_configuration.Object);
 
 			// Act
-			var products = productService.GetProducts(sortOption);
+			var products = await productService.GetProducts(sortOption);
 
 			// Assert
 			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());
@@ -35,13 +36,13 @@ namespace WX.OrderFulfilment.Tests
 
 		[Theory]
 		[ClassData(typeof(LowSortOptionTestData))]
-		public void Should_Return_Products_For_Case_Insensitive_Low_Sortoption(string sortOption, List<Product> expectedProductsList)
+		public async Task Should_Return_Products_For_Case_Insensitive_Low_Sortoption(string sortOption, List<Product> expectedProductsList)
 		{
 			// Arrange
 			var productService = new ProductService(_configuration.Object);
 
 			// Act
-			var products = productService.GetProducts(sortOption);
+			var products = await productService.GetProducts(sortOption);
 
 			// Assert
 			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());
@@ -49,13 +50,13 @@ namespace WX.OrderFulfilment.Tests
 
 		[Theory]
 		[ClassData(typeof(HighSortOptionTestData))]
-		public void Should_Return_Products_For_Case_Insensitive_High_Sortoption(string sortOption, List<Product> expectedProductsList)
+		public async Task Should_Return_Products_For_Case_Insensitive_High_Sortoption(string sortOption, List<Product> expectedProductsList)
 		{
 			// Arrange
 			var productService = new ProductService(_configuration.Object);
 
 			// Act
-			var products = productService.GetProducts(sortOption);
+			var products = await productService.GetProducts(sortOption);
 
 			// Assert
 			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());
@@ -63,13 +64,13 @@ namespace WX.OrderFulfilment.Tests
 
 		[Theory]
 		[ClassData(typeof(AscendingSortOptionTestData))]
-		public void Should_Return_Products_For_Case_Insensitive_Ascending_Sortoption(string sortOption, List<Product> expectedProductsList)
+		public async Task Should_Return_Products_For_Case_Insensitive_Ascending_Sortoption(string sortOption, List<Product> expectedProductsList)
 		{
 			// Arrange
 			var productService = new ProductService(_configuration.Object);
 
 			// Act
-			var products = productService.GetProducts(sortOption);
+			var products = await productService.GetProducts(sortOption);
 
 			// Assert
 			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());
@@ -77,13 +78,13 @@ namespace WX.OrderFulfilment.Tests
 
 		[Theory]
 		[ClassData(typeof(DescendingSortOptionTestData))]
-		public void Should_Return_Products_For_Case_Insensitive_Descending_Sortoption(string sortOption, List<Product> expectedProductsList)
+		public async Task Should_Return_Products_For_Case_Insensitive_Descending_Sortoption(string sortOption, List<Product> expectedProductsList)
 		{
 			// Arrange
 			var productService = new ProductService(_configuration.Object);
 
 			// Act
-			var products = productService.GetProducts(sortOption);
+			var products = await productService.GetProducts(sortOption);
 
 			// Assert
 			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());
@@ -91,13 +92,13 @@ namespace WX.OrderFulfilment.Tests
 
 		[Theory]
 		[ClassData(typeof(RecommendedSortOptionTestData))]
-		public void Should_Return_Products_For_Case_Insensitive_Recommended_Sortoption(string sortOption, List<Product> expectedProductsList)
+		public async Task Should_Return_Products_For_Case_Insensitive_Recommended_Sortoption(string sortOption, List<Product> expectedProductsList)
 		{
 			// Arrange
 			var productService = new ProductService(_configuration.Object);
 
 			// Act
-			var products = productService.GetProducts(sortOption);
+			var products = await productService.GetProducts(sortOption);
 
 			// Assert
 			expectedProductsList.Should().BeEquivalentTo(products, options => options.WithStrictOrdering());

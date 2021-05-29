@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -22,15 +23,18 @@ namespace WX.OrderFulfilment.Controllers
         }
 
         [HttpGet("sort")]
-        public async Task<IEnumerable<ProductResource>> GetProducts([FromQuery(Name = "sortOption")] string sortOption)
+        public async Task<IActionResult> GetProducts([FromQuery(Name = "sortOption")] string sortOption)
         {
-            // ToDo: If sortOption is empty, maybe return products sorted by popularity?
+            if(!Enum.TryParse(typeof(SortOptionEnum), sortOption, true, out var optionEnum))
+            {
+                return BadRequest($"Invalid sortoption: {sortOption}");
+            }
 
             var products = await _productService.GetProducts(sortOption);
 
             var resource = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductResource>>(products);
 
-            return resource;
+            return Ok(resource);
         }
     }
 }
