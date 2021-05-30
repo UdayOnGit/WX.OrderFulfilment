@@ -7,5 +7,6 @@ namespace WX.OrderFulfilment.Services
     public interface IGetProducts
     {
         Task<IEnumerable<Product>> GetProductsFromWXAPI();
+        Task<IEnumerable<ShopperHistory>> GetShopperHistory();
     }
 }

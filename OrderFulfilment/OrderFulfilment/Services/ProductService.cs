@@ -69,7 +69,7 @@ namespace WX.OrderFulfilment.Services
 
 		private async Task<IEnumerable<Product>> GetPopularProducts()
 		{
-			var shopperHistory = await GetShopperHistory();
+			var shopperHistory = await _getProducts.GetShopperHistory();
 			var userProducts = shopperHistory.Aggregate(new List<Product>(), (a, b) =>
 			{
 				if (b.Products != null)
@@ -90,36 +90,5 @@ namespace WX.OrderFulfilment.Services
 				.Select(p => p.Product);
 		}
 		#endregion
-
-		#region Get Woolies resources
-		private async Task<IEnumerable<ShopperHistory>> GetShopperHistory()
-		{
-			var baseUrl = _configuration.GetValue<string>("WooliesXUrls:BaseUrl");
-			var productEndpoint = _configuration.GetValue<string>("WooliesXUrls:ShopperHistoryEndpoint");
-			var token = _configuration.GetValue<string>("UserDetails:Token");
-
-			var baseUri = new Uri(baseUrl);
-			var productUri = new Uri(baseUri, $"{productEndpoint}?token={token}");
-
-			using (var httpClient = new HttpClient())
-			{
-				httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-				var request = new HttpRequestMessage(HttpMethod.Get, productUri);
-				var response = await httpClient.SendAsync(request);
-				if (response.StatusCode == HttpStatusCode.OK)
-				{
-					var responseBody = await response.Content.ReadAsStringAsync();
-					return JsonConvert.DeserializeObject<IEnumerable<ShopperHistory>>(responseBody);
-				}
-				else
-				{
-					// ToDo: Log error message
-				}
-			}
-			return new List<ShopperHistory>();
-		}
-
-		#endregion
-
 	}
 }
