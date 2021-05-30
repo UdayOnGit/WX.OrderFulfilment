@@ -19,11 +19,9 @@ namespace WX.OrderFulfilment.Services
 			_configuration = configuration;
 		}
 
-		public async Task<IEnumerable<Product>> GetProducts(string sortOption)
+		public async Task<IEnumerable<Product>> GetProducts(SortOptionEnum sortOption)
 		{
-			Enum.TryParse(typeof(SortOptionEnum), sortOption, true, out var optionEnum);
-
-			var result = optionEnum switch
+			var result = sortOption switch
 			{
 				SortOptionEnum.Low => GetProductsWithLowToHighPrice(),
 				SortOptionEnum.High => GetProductsWithHighToLowPrice(),

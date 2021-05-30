@@ -30,7 +30,7 @@ namespace WX.OrderFulfilment.Controllers
                 return BadRequest($"Invalid sortoption: {sortOption}");
             }
 
-            var products = await _productService.GetProducts(sortOption);
+            var products = await _productService.GetProducts((SortOptionEnum)optionEnum); // ToDo: This is absurd, why do I have to convert again
 
             var resource = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductResource>>(products);
 
