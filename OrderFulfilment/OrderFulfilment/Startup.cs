@@ -33,6 +33,7 @@ namespace WX.OrderFulfilment
             services.AddScoped<IRepository, OrderDetailsRepository>();
             services.AddScoped<IUserDetailsService, UserDetailsService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IGetProducts, GetProducts>();
 
             services.AddAutoMapper(typeof(ModelToResourceProfile));
         }

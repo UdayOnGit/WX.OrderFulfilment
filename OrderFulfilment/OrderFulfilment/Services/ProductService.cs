@@ -13,10 +13,13 @@ namespace WX.OrderFulfilment.Services
 	public class ProductService : IProductService
 	{
 		private readonly IConfiguration _configuration;
+		private readonly IGetProducts _getProducts;
 
-		public ProductService(IConfiguration configuration)
+		public ProductService(IConfiguration configuration,
+		IGetProducts getProducts)
 		{
 			_configuration = configuration;
+			_getProducts = getProducts;
 		}
 
 		public async Task<IEnumerable<Product>> GetProducts(SortOptionEnum sortOption)
@@ -37,25 +40,25 @@ namespace WX.OrderFulfilment.Services
 		#region Get products based on the sort option
 		private async Task<IEnumerable<Product>> GetProductsWithLowToHighPrice()
 		{
-			var products = await GetProductsFromWXAPI();
+			var products = await _getProducts.GetProductsFromWXAPI();
 			return products.OrderBy(product => product.Price);
 		}
 
 		private async Task<IEnumerable<Product>> GetProductsWithHighToLowPrice()
 		{
-			var products = await GetProductsFromWXAPI();
+			var products = await _getProducts.GetProductsFromWXAPI();
 			return products.OrderByDescending(product => product.Price);
 		}
 
 		private async Task<IEnumerable<Product>> GetProductsWithAscendingName()
 		{
-			var products = await GetProductsFromWXAPI();
+			var products = await _getProducts.GetProductsFromWXAPI();
 			return products.OrderBy(product => product.Name);
 		}
 
 		private async Task<IEnumerable<Product>> GetProductsWithDescendingName()
 		{
-			var products = await GetProductsFromWXAPI();
+			var products = await _getProducts.GetProductsFromWXAPI();
 			return products.OrderByDescending(product => product.Name);
 		}
 
@@ -76,7 +79,7 @@ namespace WX.OrderFulfilment.Services
 				return a;
 			});
 
-			var products = await GetProductsFromWXAPI();
+			var products = await _getProducts.GetProductsFromWXAPI();
 			return products.Select(product =>
 				new
 				{
@@ -89,34 +92,6 @@ namespace WX.OrderFulfilment.Services
 		#endregion
 
 		#region Get Woolies resources
-
-		// ToDo: Getting resources from external api seems tightly coupled with ProductService. Need to bring it out
-		private async Task<IEnumerable<Product>> GetProductsFromWXAPI()
-		{
-			var baseUrl = _configuration.GetValue<string>("WooliesXUrls:BaseUrl");
-			var productEndpoint = _configuration.GetValue<string>("WooliesXUrls:ProductEndpoint");
-			var token = _configuration.GetValue<string>("UserDetails:Token");
-
-			var baseUri = new Uri(baseUrl);
-			var productUri = new Uri(baseUri, $"{productEndpoint}?token={token}");
-			using (var httpClient = new HttpClient())	// ToDo: This can be taken out into a separate helper class
-			{
-				httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-				var request = new HttpRequestMessage(HttpMethod.Get, productUri);
-				var response = await httpClient.SendAsync(request);
-				if (response.StatusCode == HttpStatusCode.OK)
-				{
-					var responseBody = await response.Content.ReadAsStringAsync();
-					return JsonConvert.DeserializeObject<IEnumerable<Product>>(responseBody);
-				}
-				else
-				{
-					// ToDo: Log error message
-				}
-			}
-			return new List<Product>();
-		}
-
 		private async Task<IEnumerable<ShopperHistory>> GetShopperHistory()
 		{
 			var baseUrl = _configuration.GetValue<string>("WooliesXUrls:BaseUrl");
