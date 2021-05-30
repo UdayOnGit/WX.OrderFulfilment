@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,26 @@ namespace WX.OrderFulfilment
             services.AddScoped<IUserDetailsService, UserDetailsService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IGetWooliesProducts, GetWooliesProducts>();
+            
+            services.AddScoped<GetProductsSortedLowToHigh>();
+            services.AddScoped<GetProductsSortedHighToLowPrice>();
+            services.AddScoped<GetProductsWithAscendingName>();
+            services.AddScoped<GetProductsWithDescendingName>();
+            services.AddScoped<GetRecommendedProducts>();
+
+            services.AddScoped<Func<SortOptionEnum, IGetProducts>>
+            (x => key =>
+             {
+                 return key switch
+                 {
+                     SortOptionEnum.Low => x.GetService<GetProductsSortedLowToHigh>(),
+                     SortOptionEnum.High => x.GetService<GetProductsSortedHighToLowPrice>(),
+                     SortOptionEnum.Ascending => x.GetService<GetProductsWithAscendingName>(),
+                     SortOptionEnum.Descending => x.GetService<GetProductsWithDescendingName>(),
+                     SortOptionEnum.Recommended => x.GetService<GetRecommendedProducts>(),
+                     _ => throw new InvalidOperationException(),
+                 };
+             });
 
             services.AddAutoMapper(typeof(ModelToResourceProfile));
         }
