@@ -6,3 +6,5 @@ OrderFulfilment/OrderFulfilment.Tests/bin/
 OrderFulfilment/ClassLibrary1/obj/
 OrderFulfilment/ClassLibrary1/bin/
 OrderFulfilment/.vs/
+.vscode/launch.json
+.vscode/tasks.json
