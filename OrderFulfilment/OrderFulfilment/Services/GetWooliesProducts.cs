@@ -9,11 +9,11 @@ using WX.OrderFulfilment.Model;
 
 namespace WX.OrderFulfilment.Services
 {
-    public class GetProducts : IGetProducts
+    public class GetWooliesProducts : IGetWooliesProducts
     {
         private readonly IConfiguration _configuration;
 
-        public GetProducts(IConfiguration configuration)
+        public GetWooliesProducts(IConfiguration configuration)
         {
             _configuration = configuration;
         }

@@ -4,7 +4,7 @@ using WX.OrderFulfilment.Model;
 
 namespace WX.OrderFulfilment.Services
 {
-    public interface IGetProducts
+    public interface IGetWooliesProducts
     {
         Task<IEnumerable<Product>> GetProductsFromWXAPI();
         Task<IEnumerable<ShopperHistory>> GetShopperHistory();
